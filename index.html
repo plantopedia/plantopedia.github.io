@@ -24,6 +24,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: red;
 }
 
 /* HEADER */
@@ -121,6 +122,7 @@ main {
     max-width: 600px;
     text-align: left;
     backdrop-filter: blur(10px);
+    display:none;
 }
 
 .result-container img {
@@ -230,6 +232,64 @@ text-align: center;
 padding: 5px;
 border: 4px solid black;
 }
+
+#feed {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.feed-item {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: 0.3s;
+    width: 95%;
+}
+
+.feed-item:hover {
+    background: #f0f0f0;
+}
+
+.feed-content {
+    flex: 1;
+}
+
+.feed-image img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+#backButton {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 8px 15px;
+    background: #50c878;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+#backButton:hover {
+    background: #3da65d;
+}
+
+.result-container {
+    position: relative; /* Para o botão ficar posicionado dentro desse container */
+    padding-top: 50px;  /* Para não sobrepor o conteúdo */
+}
   </style>
 </head>
 </head>
@@ -247,8 +307,10 @@ border: 4px solid black;
         </div>
     </header>
   <main>
+        <div id="feed"></div>
         <div class="result-container">
-            <p id="status">Busque por termos como Nomes Populares, Comuns, termos Científicos ou nomes Schominicais (termos científicos da Schömner) e clique em "Pesquisar".</p><br>
+          <button id="backButton">Voltar</button>
+            <br>          
             <div id="mDetails">
             <h2 id="plant-name"></h2>
             <div id="plant-details">
@@ -293,79 +355,112 @@ backdrop-filter: blur(10px); color: white; font-size: 14px; font-weight: bold; t
   }
 
 function searchPlant() {
-    ensurePlantIndexLoaded(() => {
-        const query = document.getElementById("searchBar").value.trim().toLowerCase();
-        const statusElement = document.getElementById("status");
+    const query = document.getElementById("searchBar").value.trim();
+    const feed = document.getElementById("feed");
+    const resultContainer = document.querySelector(".result-container");
 
-        if (!query) {
-            statusElement.innerText = "Por favor, digite algo para pesquisar.";
-            return;
-        }
+    feed.innerHTML = "";
+    resultContainer.style.display = "none";
 
-        statusElement.innerText = "Buscando...";
+    if (!query) {
+        feed.innerHTML = "<p>Digite algo para buscar.</p>";
+        return;
+    }
 
-        const file = window.plantIndex[query];
+    const results = buscarPlantas(query);
 
-        if (!file) {
-            statusElement.innerText = "Planta não encontrada.";
-            return;
-        }
+    if (results[0].nome === "Nenhuma planta encontrada.") {
+        feed.innerHTML = "<p>Nenhuma planta encontrada.</p>";
+        return;
+    }
 
-        // Remover script anterior, se houver
-        const oldScript = document.getElementById("plant-script");
-        if (oldScript) {
-            oldScript.remove();
-        }
+    results.forEach(result => {
+        result.arquivos.forEach(file => {
+            const card = document.createElement("div");
+            card.classList.add("feed-item");
+            card.innerHTML = `
+                <div class="feed-content">
+                    <h3>${result.nome}</h3>
+                    <p>Carregando descrição...</p>
+                </div>
+                <div class="feed-image">
+                    <img src="loading.png" alt="Carregando">
+                </div>
+            `;
 
-        // Criar novo script para carregar os dados da planta
-        const plantScript = document.createElement("script");
-        plantScript.id = "plant-script";
-        plantScript.src = file;
-        plantScript.onload = () => {
-            if (typeof plantData !== "undefined") {
-                document.getElementById("plant-name").innerText = plantData.name;
-                document.getElementById("plant-image").innerHTML = `<img src="${plantData.image}" width="200">`;
-                statusElement.innerText = "Planta encontrada!";
+            fetch(file)
+                .then(response => response.text())
+                .then(scriptContent => {
+                    const script = document.createElement("script");
+                    script.innerHTML = scriptContent;
+                    document.body.appendChild(script);
 
-                // Monta a tabela com os dados da planta
-                const tableBody = document.getElementById("plant-data-table");
-                tableBody.innerHTML = `
-                    <tr><td>Schömner:</td><td>${plantData.schominicalName || "N/A"}</td></tr>
-                    <tr><td>Ciência:</td><td>${plantData.scientificName || "N/A"}</td></tr>
-                    <tr><td>Tempo de Vida:</td><td>${plantData.lifespan || "N/A"}</td></tr>
-                    <tr><td>Exigência de Luz:</td><td>${plantData.lightRequirement || "N/A"}</td></tr>
-                    <tr><td>Exigência de Água:</td><td>${plantData.waterRequirement || "N/A"}</td></tr>
-                    <tr><td>Tipo:</td><td>${plantData.type || "N/A"}</td></tr>
-                    <tr><td>Benefícios Ecológicos:</td><td>${plantData.ecologicalBenefits || "None"}</td></tr>
-                    <tr><td>Suscetibilidade a Pragas/Doenças:</td><td>${plantData.pestSusceptibility || "None"}</td></tr>
-                    <tr><td>Propriedades Medicinais:</td><td>${plantData.medicinalProperties || "None"}</td></tr>
-                    <tr><td>Fruto:</td><td>${plantData.hasFruit ? "Sim" : "Não"}</td></tr>
-                    <tr><td>Tipo de Fruto:</td><td>${plantData.fruitType || "N/A"}</td></tr>
-                    <tr><td>Tipo de Folha:</td><td>${plantData.leafType || "N/A"}</td></tr>
-                    <tr><td>Profundidade da Raiz:</td><td>${plantData.rootDepth || "N/A"}</td></tr>
-                    <tr><td>Altura Máxima:</td><td>${plantData.maxHeight || "N/A"}</td></tr>
-                    <tr><td>Taxa de Crescimento:</td><td>${plantData.growthRate || "N/A"}</td></tr>
-                    <tr><td>Solo Preferido:</td><td>${plantData.preferredSoil || "N/A"}</td></tr>
-                    <tr><td>Nativo:</td><td>${plantData.nativeRegion || "N/A"}</td></tr>
-                    <tr><td>Sustentabilidade:</td><td>${plantData.sustainability || "N/A"}</td></tr>
-                    <tr><td>Nomes Populares:</td><td>${plantData.popularNames ? plantData.popularNames.join(", ") : "N/A"}</td></tr>
-                `;
-                            document.getElementById("plant-about").innerText = plantData.about || "Nenhuma descrição disponível.";
-            } else {
-                statusElement.innerText = "Erro ao carregar os dados.";
-            }
-        };
+                    setTimeout(() => {
+                        if (typeof plantData !== "undefined") {
+                            card.querySelector("p").innerText = plantData.about.substring(0, 500) + "...";
+                            card.querySelector("img").src = plantData.image;
+                            card.querySelector("img").alt = plantData.name;
 
-        document.body.appendChild(plantScript);
+                            card.addEventListener("click", () => {
+                                openPlantDetails(plantData);
+                            });
+                        }
+                    }, 100);
+                });
+
+            feed.appendChild(card);
+        });
     });
 }
 
-  document.getElementById("searchButton").addEventListener("click", searchPlant);
-  document.getElementById("searchBar").addEventListener("keypress", function(event) {
-      if (event.key === "Enter") {
-          searchPlant();
-      }
-  });
+function openPlantDetails(plantData) {
+    const feed = document.getElementById("feed");
+    const resultContainer = document.querySelector(".result-container");
+
+    document.getElementById("plant-name").innerText = plantData.name;
+    document.getElementById("plant-image").innerHTML = `<img src="${plantData.image}" width="200">`;
+    document.getElementById("plant-about").innerText = plantData.about || "Nenhuma descrição disponível.";
+
+    // Monta a tabela
+    const tableBody = document.getElementById("plant-data-table");
+    tableBody.innerHTML = `
+        <tr><td>Schömner:</td><td>${plantData.schominicalName || "N/A"}</td></tr>
+        <tr><td>Ciência:</td><td>${plantData.scientificName || "N/A"}</td></tr>
+        <tr><td>Tempo de Vida:</td><td>${plantData.lifespan || "N/A"}</td></tr>
+        <tr><td>Exigência de Luz:</td><td>${plantData.lightRequirement || "N/A"}</td></tr>
+        <tr><td>Exigência de Água:</td><td>${plantData.waterRequirement || "N/A"}</td></tr>
+        <tr><td>Tipo:</td><td>${plantData.type || "N/A"}</td></tr>
+        <tr><td>Benefícios Ecológicos:</td><td>${plantData.ecologicalBenefits || "None"}</td></tr>
+        <tr><td>Suscetibilidade a Pragas/Doenças:</td><td>${plantData.pestSusceptibility || "None"}</td></tr>
+        <tr><td>Propriedades Medicinais:</td><td>${plantData.medicinalProperties || "None"}</td></tr>
+        <tr><td>Fruto:</td><td>${plantData.hasFruit ? "Sim" : "Não"}</td></tr>
+        <tr><td>Tipo de Fruto:</td><td>${plantData.fruitType || "N/A"}</td></tr>
+        <tr><td>Tipo de Folha:</td><td>${plantData.leafType || "N/A"}</td></tr>
+        <tr><td>Profundidade da Raiz:</td><td>${plantData.rootDepth || "N/A"}</td></tr>
+        <tr><td>Altura Máxima:</td><td>${plantData.maxHeight || "N/A"}</td></tr>
+        <tr><td>Taxa de Crescimento:</td><td>${plantData.growthRate || "N/A"}</td></tr>
+        <tr><td>Solo Preferido:</td><td>${plantData.preferredSoil || "N/A"}</td></tr>
+        <tr><td>Nativo:</td><td>${plantData.nativeRegion || "N/A"}</td></tr>
+        <tr><td>Nomes Populares:</td><td>${plantData.popularNames ? plantData.popularNames.join(", ") : "N/A"}</td></tr>
+    `;
+
+    // Oculta o feed e exibe os detalhes
+    feed.style.display = "none";
+    resultContainer.style.display = "block";
+}
+
+document.getElementById("backButton").addEventListener("click", () => {
+    document.getElementById("feed").style.display = "block";
+    document.querySelector(".result-container").style.display = "none";
+});
+
+// Eventos para pesquisa
+document.getElementById("searchButton").addEventListener("click", searchPlant);
+document.getElementById("searchBar").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        searchPlant();
+    }
+});
   </script>
 
 </body>
