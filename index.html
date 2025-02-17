@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <title>Plantopedia</title>
   <head>
-  <script src="https://cdn.jsdelivr.net/gh/plantopedia/API@main/planta-db.js"></script>
-
   <style>
 /* Importando fonte estilosa do Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
@@ -18,7 +16,7 @@
 }
 
 body {
-    background: url('http://upload.wikimedia.org/wikipedia/commons/f/f6/Epping_Forest_Centenary_Walk_2_-_Sept_2008.jpg') no-repeat center center fixed;
+    background: url('https://i.postimg.cc/RZjtG6Cq/Epping-Forest-Centenary-Walk-2-Sept-2008.jpg') no-repeat center center fixed;
     background-size: 100% 100%;
     color: #fff;
     display: flex;
@@ -290,10 +288,58 @@ border: 4px solid black;
     position: relative; /* Para o botão ficar posicionado dentro desse container */
     padding-top: 50px;  /* Para não sobrepor o conteúdo */
 }
+
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    transition: opacity 0.8s ease;
+}
+
+.loading-content {
+    text-align: center;
+    color: white;
+    font-size: 18px;
+}
+
+.progress-bar {
+    width: 300px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: lime;
+    transition: width 0.5s ease;
+}
   </style>
 </head>
 </head>
 <body>
+
+<div id="loading-screen">
+    <div class="loading-content">
+        <p id="loading-status">Inicializando...</p>
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        <p id="loading-percent">0%</p>
+    </div>
+</div>
 
     <header>
            <div class="header-container">
@@ -343,6 +389,112 @@ backdrop-filter: blur(10px); color: white; font-size: 14px; font-weight: bold; t
     </div>
 </footer>
     
+<script>
+    let loadSteps = [
+        { task: "Carregando API...", progress: 20, action: loadAPI },
+        { task: "Carregando banco de dados...", progress: 50, action: loadDatabase },
+        { task: "Carregando arquivos de plantas...", progress: 80, action: loadPlantFiles },
+        { task: "Carregando aplicativo...", progress: 100, action: finalizeLoading }
+    ];
+
+    let currentStep = 0;
+    let plantFiles = [];
+
+    function updateLoading(status, percent) {
+        document.getElementById("loading-status").innerText = status;
+        document.getElementById("loading-percent").innerText = percent + "%";
+        document.querySelector(".progress-fill").style.width = percent + "%";
+    }
+
+    function showError(message) {
+        document.getElementById("loading-status").innerText = "Erro: " + message;
+        document.getElementById("loading-status").style.color = "red";
+    }
+
+    function loadAPI() {
+        return new Promise(resolve => {
+/* TROCAR PELO LINK DA API AO PUBLICAR NO GITHUB */      fetch("https://cdn.jsdelivr.net/gh/plantopedia/API@main/planta-db.js")
+                .then(response => response.text())
+                .then(scriptContent => {
+                    const script = document.createElement("script");
+                    script.innerHTML = scriptContent;
+                    document.body.appendChild(script);
+
+                    setTimeout(() => {
+                        if (typeof plantIndex !== "undefined") {
+                            plantFiles = Object.values(plantIndex); 
+                            resolve();
+                        } else {
+                            showError("A API não retornou os dados corretamente.");
+                        }
+                    }, 500);
+                })
+                .catch(() => {
+                    showError("Falha ao carregar a API.");
+                });
+        });
+    }
+
+    function loadDatabase() {
+        return new Promise(resolve => {
+            setTimeout(() => { 
+                window.databaseLoaded = true; 
+                resolve();
+            }, 1000); 
+        });
+    }
+
+    function loadPlantFiles() {
+        return new Promise(resolve => {
+            let loaded = 0;
+            let errors = [];
+
+            if (plantFiles.length === 0) {
+                showError("Nenhum arquivo de planta encontrado.");
+                return;
+            }
+
+            function checkFiles(file, index) {
+                fetch(`https://cdn.jsdelivr.net/gh/plantopedia/API@main/${file}`)
+                    .then(response => response.text())
+                    .then(scriptContent => {
+                        const script = document.createElement("script");
+                        script.innerHTML = scriptContent;
+                        document.body.appendChild(script);
+                        loaded++;
+                        updateLoading(`Carregando arquivos... (${loaded}/${plantFiles.length})`, 80 + Math.round((loaded / plantFiles.length) * 20));
+
+                        if (loaded === plantFiles.length) resolve();
+                    })
+                    .catch(() => {
+                        errors.push(file);
+                        showError(`Erro ao carregar: ${file}`);
+                    });
+            }
+
+            plantFiles.forEach(checkFiles);
+        });
+    }
+
+    function finalizeLoading() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                document.getElementById("loading-screen").style.opacity = "0";
+                setTimeout(() => document.getElementById("loading-screen").remove(), 800);
+                resolve();
+            }, 1000);
+        });
+    }
+
+    async function startLoading() {
+        for (let step of loadSteps) {
+            updateLoading(step.task, step.progress);
+            await step.action();
+        }
+    }
+
+    startLoading();
+</script>
 
   <script>
   function ensurePlantIndexLoaded(callback) {
