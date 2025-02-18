@@ -1,619 +1,650 @@
-<!DOCTYPE html>
-<html lang="br">
-<head>
-  <meta charset="UTF-8">
-  <title>Plantopedia</title>
-  <head>
-  <style>
-/* Importando fonte estilosa do Google Fonts */
+<!DOCTYPE html><html lang="br">
+<head><meta charset="UTF-8">
+<title>Plantopedia</title><head>
+<style>
+/* Fonte Geral */
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Nunito', sans-serif;
-}
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Nunito', sans-serif; }
 
 body {
-    background: url('https://i.postimg.cc/RZjtG6Cq/Epping-Forest-Centenary-Walk-2-Sept-2008.jpg') no-repeat center center fixed;
-    background-size: 100% 100%;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background-color: red;
-}
+background: url('http://upload.wikimedia.org/wikipedia/commons/f/f6/Epping_Forest_Centenary_Walk_2_-_Sept_2008.jpg') no-repeat center center fixed;
+background-size: 100% 100%;
+color: #fff;
+display: flex;
+flex-direction: column;
+min-height: 100vh;
+background-color: red; }
 
-/* HEADER */
+/* Header Global */
 header {
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    padding: 15px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-}
+background: rgba(0, 0, 0, 0.4);
+backdrop-filter: blur(10px);
+padding: 15px 40px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+position: fixed;
+width: 100%;
+top: 0;
+left: 0;
+z-index: 1000; }
 
 .header-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: relative; 
-}
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+position: relative; }
+
+/* Não sei porquê a logo tá torta e pra cima, mas se Deus existir eu conserto mais tarde */
 
 .header-container h1 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #50c878; /* Verde vibrante */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); 
-    bottom: -8px;
-    position: relative; 
-    z-index: 2; 
-}
+font-size: 24px;
+font-weight: bold;
+color: #50c878; /* Verde vibrante */
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); 
+bottom: -8px;
+position: relative; 
+z-index: 2; }
 
 .header-container hr {
-    width: 100%;
-    border: none;
-    border-top: 2px solid rgba(255, 255, 255, 0.4);
-    position: absolute;
-    top: 30%;
-    left: 0;
-    z-index: 1;
-}
+width: 100%;
+border: none;
+border-top: 2px solid rgba(255, 255, 255, 0.4);
+position: absolute;
+top: 30%;
+left: 0;
+z-index: 1; }
 
 .header-container p {
-    font-size: 12px;
-    font-style: italic;
-    color: rgba(255, 255, 255, 0.7); 
-    padding-bottom: 61px;
-}
+font-size: 12px;
+font-style: italic;
+color: rgba(255, 255, 255, 0.7); 
+padding-bottom: 61px; }
 
+/* Barra de Pesquisa */
 .search-container {
-    display: flex;
-    align-items: center;
-}
+display: flex;
+align-items: center; }
 
 #searchBar {
-    padding: 8px;
-    border: none;
-    border-radius: 5px;
-    outline: none;
-    width: 250px;
-}
+color:#fff;
+padding: 8px;
+border: none;
+border-radius: 5px;
+outline: none;
+width: 250px;
+background: rgba(0, 0, 0, 0.01);
+backdrop-filter: blur(10px);
+border: 1px solid green; }
 
 #searchButton {
-    background: #50c878;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    margin-left: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
+background: #50c878;
+color: white;
+border: none;
+padding: 8px 15px;
+margin-left: 10px;
+border-radius: 5px;
+cursor: pointer;
+font-weight: bold; }
 
 #searchButton:hover {
-    background: #3fa567;
-}
+background: #3fa567; }
 
 /* CONTAINER DE RESULTADOS */
 main {
-    margin-top: 150px;
-    margin-bottom: 130px;
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+margin-top: 150px;
+margin-bottom: 130px;
+flex: 1;
+display: flex;
+justify-content: center;
+align-items: center; }
 
 .result-container {
-    background: rgba(0, 0, 0, 0.4);
-    padding: 20px;
-    border-radius: 10px;
-    width: 95%;
-    max-width: 600px;
-    text-align: left;
-    backdrop-filter: blur(10px);
-    display:none;
-}
+background: rgba(0, 0, 0, 0.4);
+padding: 20px;
+border-radius: 10px;
+width: 95%;
+max-width: 600px;
+text-align: left;
+backdrop-filter: blur(10px);
+display:none; }
 
 .result-container img {
-    width: 200px;
-    border-radius: 10px;
-    margin-top: 10px;
-}
+width: 200px;
+border-radius: 10px;
+margin-top: 10px; }
 
 /* FOOTER */
 footer {
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    padding: 15px 20px;
-    font-size: 14px;
-    bottom: 0%;
-    width: 100%;
-    display: flex; /* Usa flexbox */
-    justify-content: space-between; /* Itens nas extremidades */
-    align-items: center; /* Alinha verticalmente */
-    position: fixed;
-}
+background: rgba(0, 0, 0, 0.4);
+backdrop-filter: blur(10px);
+padding: 15px 20px;
+font-size: 14px;
+bottom: 0%;
+width: 100%;
+display: flex; /* Usa flexbox */
+justify-content: space-between;
+align-items: center;
+position: fixed; }
 
 /* Ajusta a estrutura da exibição */
 .plant-details {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
+display: flex;
+align-items: center;
+gap: 20px; }
 
 /* Estiliza a imagem */
-
 .plant-image {
-text-align: center;
-}
+text-align: center; }
 
 .plant-image img {
-    width: 200px;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-}
+width: 200px;
+height: auto;
+border-radius: 10px;
+box-shadow: 20px 20px 20px rgba(0, 0, 0, 1);
+border: 1px dotted green; }
 
 /* Estiliza a área de informações */
 .plant-info {
-    background: rgba(0, 0, 0, 0.4);
-    padding: 10px;
-    border-radius: 10px;
-    backdrop-filter: blur(10px);
-    flex-grow: 1;
-}
+background: rgba(0, 0, 0, 0.1);
+padding: 10px;
+backdrop-filter: blur(10px);
+flex-grow: 1; }
 
 /* Estiliza a tabela de dados */
-
 .plant-info table {
-    width: 100%;
-    border-collapse: collapse;
-    background: rgba(0, 0, 0, 0.4); /* Fundo translúcido */
-    backdrop-filter: blur(10px);
-    overflow: hidden;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-}
+width: 100%;
+border-collapse: collapse;
+background: rgba(0, 0, 0, 0.4);
+backdrop-filter: blur(10px);
+overflow: hidden;
+box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5); }
 
 .plant-info th, .plant-info td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    transition: background 0.3s;
-}
+padding: 12px;
+text-align: left;
+border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+transition: background 0.3s; }
 
 .plant-info th {
-    background: rgba(80, 200, 120, 0.3);
-    color: #fff;
-    font-weight: bold;
-    text-transform: uppercase;
-}
+background: rgba(80, 200, 120, 0.3);
+color: #fff;
+font-weight: bold;
+text-transform: uppercase; }
 
 .plant-info td:first-child {
-    font-weight: bold;
-    color: #50c878;
-}
+font-weight: bold;
+color: #50c878; }
 
 .plant-info tr:nth-child(even) {
-    background: rgba(255, 255, 255, 0.1);
-}
+background: rgba(255, 255, 255, 0.1); }
 
 .plant-info tr:hover {
-    background: rgba(80, 200, 120, 0.3);
-    transform: scale(1.02);
-}
+background: rgba(80, 200, 120, 0.3);
+transform: scale(1.02); }
 
 #plant-about {
-    background: rgba(0, 0, 0, 0.4); /* Fundo translúcido */
-    backdrop-filter: blur(10px);
-    padding: 15px;
-    color: #fff;
-    font-size: 16px;
-    line-height: 1.6;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
-    margin-top: 10px;
-}
+background: rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(10px);
+padding: 15px;
+color: #fff;
+font-size: 16px;
+line-height: 1.6;
+box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+margin-top: 10px; }
 
 #mDetails {
-text-align: center;
-}
+text-align: center; }
 
 #mDetails, #sDetails {
 padding: 5px;
-border: 4px solid black;
-}
+border: 4px solid black; }
 
 #feed {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-}
+display: flex;
+flex-direction: column;
+gap: 10px;
+align-items: center; }
 
 .feed-item {
-    display: flex;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: 0.3s;
-    width: 95%;
-}
+display: flex;
+align-items: center;
+background: rgba(0, 0, 0, 0.4);
+backdrop-filter: blur(10px);
+padding: 10px;
+border-radius: 5px;
+box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+cursor: pointer;
+transition: 0.3s;
+width: 95%; }
 
 .feed-item:hover {
-    background: #f0f0f0;
-}
+background: #f0f0f0; }
 
 .feed-content {
-    flex: 1;
-}
+flex: 1; }
 
 .feed-image img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 5px;
-}
+width: 80px;
+height: 80px;
+object-fit: cover;
+border-radius: 5px; }
 
 #backButton {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    padding: 8px 15px;
-    background: #50c878;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-}
+position: absolute;
+top: 10px;
+left: 10px;
+padding: 8px 15px;
+background: #50c878;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+font-size: 14px;
+font-weight: bold; }
 
 #backButton:hover {
-    background: #3da65d;
-}
+background: #3da65d; }
 
 .result-container {
-    position: relative; /* Para o botão ficar posicionado dentro desse container */
-    padding-top: 50px;  /* Para não sobrepor o conteúdo */
-}
+position: relative;
+ padding-top: 50px; }
 
+/* Tela de Carregamento */
 #loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(15px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    z-index: 9999;
-    transition: opacity 0.8s ease;
-}
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.7);
+backdrop-filter: blur(15px);
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+z-index: 9999;
+transition: opacity 0.8s ease; }
 
 .loading-content {
-    text-align: center;
-    color: white;
-    font-size: 18px;
-}
+text-align: center;
+color: white;
+font-size: 18px; }
 
 .progress-bar {
-    width: 300px;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 5px;
-    overflow: hidden;
-    margin-top: 10px;
-}
+width: 300px;
+height: 10px;
+background: rgba(255, 255, 255, 0.2);
+border-radius: 5px;
+overflow: hidden;
+margin-top: 10px; }
 
 .progress-fill {
-    height: 100%;
-    width: 0%;
-    background: lime;
-    transition: width 0.5s ease;
-}
-  </style>
-</head>
-</head>
-<body>
+height: 100%;
+width: 0%;
+background: lime;
+transition: width 0.5s ease; }
+
+/* Container de Sugestões | Home */
+#suggestions-container {
+background: linear-gradient(135deg, rgba(0, 85, 153, 0.8), rgba(153, 51, 204, 0.8));
+padding: 20px;
+margin: 30px auto;
+width: 90%;
+border-radius: 15px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+opacity: 1; }
+
+#suggestions-container h2 {
+color: #fff;
+font-family: 'Arial', sans-serif;
+font-size: 24px;
+text-align: left;
+margin-bottom: 20px;
+letter-spacing: 2px; }
+
+#suggestions-list {
+list-style: none;
+padding: 0;
+margin: 0; }
+
+#suggestions-list li {
+background: rgba(255, 255, 255, 0.2);
+color: #fff;
+font-family: 'Verdana', sans-serif;
+font-size: 18px;
+padding: 10px;
+border-radius: 10px;
+margin: 8px 0;
+transition: transform 0.2s ease, background-color 0.3s ease; }
+
+#suggestions-list li:hover {
+background-color: rgba(255, 255, 255, 0.4);
+transform: scale(1.05); }
+
+#suggestions-container:hover {
+transform: scale(1.05);
+opacity: 0.95; }
+
+#suggestions-container p {
+color: rgba(255, 255, 255, 0.9);
+font-size: 16px;
+font-family: 'Georgia', serif;
+line-height: 1.6;
+text-align: center;
+background: rgba(255, 255, 255, 0.1);
+padding: 12px;
+border-radius: 10px;
+margin-top: 10px;
+box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.2);
+transition: background-color 0.3s ease, transform 0.2s ease; }
+
+#suggestions-container p:hover {
+background-color: rgba(255, 255, 255, 0.3);
+transform: scale(1.02); }
+</style></head><body>
 
 <div id="loading-screen">
-    <div class="loading-content">
-        <p id="loading-status">Inicializando...</p>
-        <div class="progress-bar">
-            <div class="progress-fill"></div>
-        </div>
-        <p id="loading-percent">0%</p>
-    </div>
+<div class="loading-content">
+<p id="loading-status">Inicializando...</p>
+<div class="progress-bar">
+<div class="progress-fill"></div></div>
+<p id="loading-percent">0%</p>
+</div></div>
+
+<header>
+<div class="header-container">
+<h1>Plantopedia</h1><hr>
+<p>Zass natureza kalbuz'de</p></div>
+<div class="search-container">
+<input id="searchBar" type="text" placeholder="Busque parametros...">
+<button id="searchButton">Buscar</button>
+</div></header>
+
+<main>
+<div id="suggestions-container">
+<p>Perdido? Clique no botão de Documentação no Footer para conhecer mais sobre oque é esse aplicativo.<br>
+Já usou antes?:</p><br>
+<h2>Sugestões<br>
+Tente buscar por essas plantas, elas são interessantes:</h2>
+<ul id="suggestions-list">
+<li><span style="color:lime; font-weight: bold;">[  Disponível  ]</span><br>Pitangueira (<i>Alta Pitangea / Eugenia uniflora</i>)</li>
+<li>Árvore-do-Sangue-de-Dragão (<i>Dracaena cinnabari</i>)</li>
+<li>Jabuticabeira (<i>Plinia cauliflora</i>)</li>
+<li>Baobá (<i>Adansonia digitata</i>)</li>
+<li>Ipê-Amarelo (<i>Handroanthus albus</i>)</li>
+<li>Vitória-Régia (<i>Victoria amazonica</i>)</li>
+<li>Cacto-Saguaro (<i>Carnegiea gigantea</i>)</li>
+<li>Ginkgo Biloba (<i>Ginkgo biloba</i>)</li>
+<li>Rafflesia (<i>Rafflesia arnoldii</i>)</li>
+<li>Carvalho-Alvarinho (<i>Quercus robur</i>)</li>
+<li>Pau-Brasil (<i>Paubrasilia echinata</i>)</li>
+<li>Samambaiaçu (<i>Cyathea cooperi</i>)</li>
+<li>Sequoia-Gigante (<i>Sequoiadendron giganteum</i>)</li>
+<li>Cedro-do-Himalaia (<i>Cedrus deodara</i>)</li>
+<li>Lótus Sagrado (<i>Nelumbo nucifera</i>)</li>
+</ul>
+<p style="text-align:center;">Atualizado em: 18/02/2025</p>
 </div>
 
-    <header>
-           <div class="header-container">
-        <h1>Plantopedia</h1>
-        <hr>
-        <p>Zass natureza kalbuz'de</p>
-    </div>
-        <div class="search-container">
-            <input id="searchBar" type="text" placeholder="Busque parametros...">
-            <button id="searchButton">Pesquisar</button>
-        </div>
-    </header>
-  <main>
-        <div id="feed"></div>
-        <div class="result-container">
-          <button id="backButton">Voltar</button>
-            <br>          
-            <div id="mDetails">
-            <h2 id="plant-name"></h2>
-            <div id="plant-details">
-            <div id="plant-image"></div><br>
-            <div class="plant-info">
-             <table>
-             <tbody id="plant-data-table"></tbody>
-             </table>
-             </div></div></div><br>
+<!-- Espaço para resultados da pesquisa -->
+<div id="feed"></div>
+
+<!-- Script do Suggestion Container -->
+<script id="search-script">
+function searchPlant() {
+const query = document.getElementById("searchBar").value.trim();
+const feed = document.getElementById("feed");
+const suggestionsContainer = document.getElementById("suggestions-container");
+
+feed.innerHTML = "";
+suggestionsContainer.style.display = "none";
+
+if (!query) {
+feed.innerHTML = "<p>Digite algo para buscar.</p>";
+return; }
+</script>
+
+<div class="result-container">
+<button id="backButton">Voltar</button><br>          
+<div id="mDetails">
+<h2 id="plant-name"></h2>
+<div id="plant-details">
+<div id="plant-image"></div><br>
+<div class="plant-info"><table>
+<tbody id="plant-data-table"></tbody>
+</table></div></div></div><br>
              
-            <div id="sDetails">
-            <h3 style="color:lime">About:</h3>
-            <p id="plant-about"></p>
-            </div>
-            
-        </div>
-    </main>
+<div id="sDetails">
+<h3 style="color:lime">About:</h3>
+<p id="plant-about"></p></div></div></main>
 
 <footer>
-    <a href="https://seulink.com" style="display: inline-block; padding: 10px 20px; background: rgba(80, 200, 120, 0.3);
-backdrop-filter: blur(10px); color: white; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 5px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); transition: 0.3s;" 
-       onmouseover="this.style.backgroundColor='#3da65d'; this.style.boxShadow='3px 3px 7px rgba(0, 0, 0, 0.5)';" 
-       onmouseout="this.style.backgroundColor='#50c878'; this.style.boxShadow='2px 2px 5px rgba(0, 0, 0, 0.3)';">
-        Documentação
-    </a>
+<a href="https://seulink.com" style="display: inline-block; padding: 10px 20px; background: rgba(80, 200, 120, 0.3);
+backdrop-filter: blur(10px); color: white; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 5px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); transition: 0.3s;"onmouseover="this.style.backgroundColor='#3da65d'; this.style.boxShadow='3px 3px 7px rgba(0, 0, 0, 0.5)';"onmouseout="this.style.backgroundColor='#50c878'; this.style.boxShadow='2px 2px 5px rgba(0, 0, 0, 0.3)';"> Documentação </a>
 
-    <div style="text-align: right;">
-        <p>&copy; Plantopedia - Criado por Kirey Cazkdnsky</p>
-        <h4>🌿 Feito com Amor e Dedicação</h4>
-    </div>
+<div style="text-align: right;">
+<p>&copy; Plantopedia - Criado por Kirey Cazkdnsky</p>
+<h4>🌿 Feito com Amor e Dedicação</h4></div>
 </footer>
     
 <script>
-    let loadSteps = [
-        { task: "Carregando API...", progress: 20, action: loadAPI },
-        { task: "Carregando banco de dados...", progress: 50, action: loadDatabase },
-        { task: "Carregando arquivos de plantas...", progress: 80, action: loadPlantFiles },
-        { task: "Carregando aplicativo...", progress: 100, action: finalizeLoading }
-    ];
-
-    let currentStep = 0;
-    let plantFiles = [];
-
-    function updateLoading(status, percent) {
-        document.getElementById("loading-status").innerText = status;
-        document.getElementById("loading-percent").innerText = percent + "%";
-        document.querySelector(".progress-fill").style.width = percent + "%";
-    }
-
-    function showError(message) {
-        document.getElementById("loading-status").innerText = "Erro: " + message;
-        document.getElementById("loading-status").style.color = "red";
-    }
-
-    function loadAPI() {
-        return new Promise(resolve => {
-/* TROCAR PELO LINK DA API AO PUBLICAR NO GITHUB */      fetch("https://cdn.jsdelivr.net/gh/plantopedia/API@main/planta-db.js")
-                .then(response => response.text())
-                .then(scriptContent => {
-                    const script = document.createElement("script");
-                    script.innerHTML = scriptContent;
-                    document.body.appendChild(script);
-
-                    setTimeout(() => {
-                        if (typeof plantIndex !== "undefined") {
-                            plantFiles = Object.values(plantIndex); 
-                            resolve();
-                        } else {
-                            showError("A API não retornou os dados corretamente.");
-                        }
-                    }, 500);
-                })
-                .catch(() => {
-                    showError("Falha ao carregar a API.");
-                });
-        });
-    }
-
-    function loadDatabase() {
-        return new Promise(resolve => {
-            setTimeout(() => { 
-                window.databaseLoaded = true; 
-                resolve();
-            }, 1000); 
-        });
-    }
-
-    function loadPlantFiles() {
-        return new Promise(resolve => {
-            let loaded = 0;
-            let errors = [];
-
-            if (plantFiles.length === 0) {
-                showError("Nenhum arquivo de planta encontrado.");
-                return;
-            }
-
-            function checkFiles(file, index) {
-                fetch(`https://cdn.jsdelivr.net/gh/plantopedia/API@main/${file}`)
-                    .then(response => response.text())
-                    .then(scriptContent => {
-                        const script = document.createElement("script");
-                        script.innerHTML = scriptContent;
-                        document.body.appendChild(script);
-                        loaded++;
-                        updateLoading(`Carregando arquivos... (${loaded}/${plantFiles.length})`, 80 + Math.round((loaded / plantFiles.length) * 20));
-
-                        if (loaded === plantFiles.length) resolve();
-                    })
-                    .catch(() => {
-                        errors.push(file);
-                        showError(`Erro ao carregar: ${file}`);
-                    });
-            }
-
-            plantFiles.forEach(checkFiles);
-        });
-    }
-
-    function finalizeLoading() {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                document.getElementById("loading-screen").style.opacity = "0";
-                setTimeout(() => document.getElementById("loading-screen").remove(), 800);
-                resolve();
-            }, 1000);
-        });
-    }
-
-    async function startLoading() {
-        for (let step of loadSteps) {
-            updateLoading(step.task, step.progress);
-            await step.action();
-        }
-    }
-
-    startLoading();
-</script>
-
-  <script>
-  function ensurePlantIndexLoaded(callback) {
-      // Aguarda até que `window.plantIndex` esteja definido antes de executar `callback`
-      if (typeof window.plantIndex === "undefined") {
-          setTimeout(() => ensurePlantIndexLoaded(callback), 5); // Tenta novamente em 5ms
-      } else {
-          callback();
-      }
-  }
+function ensurePlantIndexLoaded(callback) {
+if (typeof window.plantIndex === "undefined") {
+setTimeout(() => ensurePlantIndexLoaded(callback), 5);
+} else {
+callback(); }}
 
 function searchPlant() {
-    const query = document.getElementById("searchBar").value.trim();
-    const feed = document.getElementById("feed");
-    const resultContainer = document.querySelector(".result-container");
+const query = document.getElementById("searchBar").value.trim();
+const feed = document.getElementById("feed");
+const resultContainer = document.querySelector(".result-container");
 
-    feed.innerHTML = "";
-    resultContainer.style.display = "none";
+feed.innerHTML = "";
+resultContainer.style.display = "none";
 
-    if (!query) {
-        feed.innerHTML = "<p>Digite algo para buscar.</p>";
-        return;
-    }
+if (!query) {
+feed.innerHTML = "<p>Digite algo para buscar.</p>";
+return; }
 
-    const results = buscarPlantas(query);
+const results = buscarPlantas(query);
+if (results[0].nome === "Nenhuma planta encontrada.") {
+feed.innerHTML = "<p>Nenhuma planta encontrada.</p>";
+return; }
 
-    if (results[0].nome === "Nenhuma planta encontrada.") {
-        feed.innerHTML = "<p>Nenhuma planta encontrada.</p>";
-        return;
-    }
+results.forEach(result => {
+if (!result.arquivo) return;
 
-    results.forEach(result => {
-        result.arquivos.forEach(file => {
-            const card = document.createElement("div");
-            card.classList.add("feed-item");
-            card.innerHTML = `
-                <div class="feed-content">
-                    <h3>${result.nome}</h3>
-                    <p>Carregando descrição...</p>
-                </div>
-                <div class="feed-image">
-                    <img src="loading.png" alt="Carregando">
-                </div>
-            `;
+const card = document.createElement("div");
+card.classList.add("feed-item");
+card.innerHTML = `
+<div class="feed-content">
+<h3>${result.nome}</h3>
+<p>Carregando descrição...</p>
+</div>
+<div class="feed-image">
+<img src="https://www.pngaaa.com/img/loading.gif" alt="Carregando"></div>`;
 
-            fetch(file)
-                .then(response => response.text())
-                .then(scriptContent => {
-                    const script = document.createElement("script");
-                    script.innerHTML = scriptContent;
-                    document.body.appendChild(script);
+fetch(result.arquivo)
+.then(response => response.text())
+.then(scriptContent => {
+const script = document.createElement("script");
+script.innerHTML = `
+(function() {
+let localPlantData;
+${scriptContent.replace("plantData =", "localPlantData =")}
+window.plantDatabase = window.plantDatabase || {};
+window.plantDatabase["${result.arquivo}"] = localPlantData; })();`;
+document.body.appendChild(script);
 
-                    setTimeout(() => {
-                        if (typeof plantData !== "undefined") {
-                            card.querySelector("p").innerText = plantData.about.substring(0, 500) + "...";
-                            card.querySelector("img").src = plantData.image;
-                            card.querySelector("img").alt = plantData.name;
+setTimeout(() => {
+const plantData = window.plantDatabase[result.arquivo];
+if (plantData) {
+card.querySelector("p").innerText = plantData.about.substring(0, 500) + " [...]";
+card.querySelector("img").src = plantData.image;
+card.querySelector("img").alt = plantData.name;
+card.addEventListener("click", () => {
+openPlantDetails(plantData);
+});}}, 100); });
 
-                            card.addEventListener("click", () => {
-                                openPlantDetails(plantData);
-                            });
-                        }
-                    }, 100);
-                });
-
-            feed.appendChild(card);
-        });
-    });
-}
+feed.appendChild(card); }); }
 
 function openPlantDetails(plantData) {
-    const feed = document.getElementById("feed");
-    const resultContainer = document.querySelector(".result-container");
+const feed = document.getElementById("feed");
+const resultContainer = document.querySelector(".result-container");
 
-    document.getElementById("plant-name").innerText = plantData.name;
-    document.getElementById("plant-image").innerHTML = `<img src="${plantData.image}" width="200">`;
-    document.getElementById("plant-about").innerText = plantData.about || "Nenhuma descrição disponível.";
+document.getElementById("plant-name").innerText = plantData.name;
+document.getElementById("plant-image").innerHTML = `<img src="${plantData.image}" width="200">`;
+document.getElementById("plant-about").innerText = plantData.about || "Nenhuma descrição disponível.";
 
-    // Monta a tabela
-    const tableBody = document.getElementById("plant-data-table");
-    tableBody.innerHTML = `
-        <tr><td>Schömner:</td><td>${plantData.schominicalName || "N/A"}</td></tr>
-        <tr><td>Ciência:</td><td>${plantData.scientificName || "N/A"}</td></tr>
-        <tr><td>Tempo de Vida:</td><td>${plantData.lifespan || "N/A"}</td></tr>
-        <tr><td>Exigência de Luz:</td><td>${plantData.lightRequirement || "N/A"}</td></tr>
-        <tr><td>Exigência de Água:</td><td>${plantData.waterRequirement || "N/A"}</td></tr>
-        <tr><td>Tipo:</td><td>${plantData.type || "N/A"}</td></tr>
-        <tr><td>Benefícios Ecológicos:</td><td>${plantData.ecologicalBenefits || "None"}</td></tr>
-        <tr><td>Suscetibilidade a Pragas/Doenças:</td><td>${plantData.pestSusceptibility || "None"}</td></tr>
-        <tr><td>Propriedades Medicinais:</td><td>${plantData.medicinalProperties || "None"}</td></tr>
-        <tr><td>Fruto:</td><td>${plantData.hasFruit ? "Sim" : "Não"}</td></tr>
-        <tr><td>Tipo de Fruto:</td><td>${plantData.fruitType || "N/A"}</td></tr>
-        <tr><td>Tipo de Folha:</td><td>${plantData.leafType || "N/A"}</td></tr>
-        <tr><td>Profundidade da Raiz:</td><td>${plantData.rootDepth || "N/A"}</td></tr>
-        <tr><td>Altura Máxima:</td><td>${plantData.maxHeight || "N/A"}</td></tr>
-        <tr><td>Taxa de Crescimento:</td><td>${plantData.growthRate || "N/A"}</td></tr>
-        <tr><td>Solo Preferido:</td><td>${plantData.preferredSoil || "N/A"}</td></tr>
-        <tr><td>Nativo:</td><td>${plantData.nativeRegion || "N/A"}</td></tr>
-        <tr><td>Nomes Populares:</td><td>${plantData.popularNames ? plantData.popularNames.join(", ") : "N/A"}</td></tr>
-    `;
+// Tabela de Dados Internos
+const tableBody = document.getElementById("plant-data-table");
+tableBody.innerHTML = `
+<tr><td>Schömner:</td><td>${plantData.schominicalName || "N/A"}</td></tr>
+<tr><td>Ciência:</td><td>${plantData.scientificName || "N/A"}</td></tr>
+<tr><td>Tempo de Vida:</td><td>${plantData.lifespan || "N/A"}</td></tr>
+<tr><td>Exigência de Luz:</td><td>${plantData.lightRequirement || "N/A"}</td></tr>
+<tr><td>Exigência de Água:</td><td>${plantData.waterRequirement || "N/A"}</td></tr>
+<tr><td>Tipo:</td><td>${plantData.type || "N/A"}</td></tr>
+<tr><td>Benefícios Ecológicos:</td><td>${plantData.ecologicalBenefits || "None"}</td></tr>
+<tr><td>Suscetibilidade a Pragas/Doenças:</td><td>${plantData.pestSusceptibility || "None"}</td></tr>
+<tr><td>Propriedades Medicinais:</td><td>${plantData.medicinalProperties || "None"}</td></tr>
+<tr><td>Fruto:</td><td>${plantData.hasFruit ? "Sim" : "Não"}</td></tr>
+<tr><td>Tipo de Fruto:</td><td>${plantData.fruitType || "N/A"}</td></tr>
+<tr><td>Tipo de Folha:</td><td>${plantData.leafType || "N/A"}</td></tr>
+<tr><td>Profundidade da Raiz:</td><td>${plantData.rootDepth || "N/A"}</td></tr>
+<tr><td>Altura Máxima:</td><td>${plantData.maxHeight || "N/A"}</td></tr>
+<tr><td>Taxa de Crescimento:</td><td>${plantData.growthRate || "N/A"}</td></tr>
+<tr><td>Solo Preferido:</td><td>${plantData.preferredSoil || "N/A"}</td></tr>
+<tr><td>Nativo:</td><td>${plantData.nativeRegion || "N/A"}</td></tr>
+<tr><td>Nomes Populares:</td><td>${plantData.popularNames ? plantData.popularNames.join(", ") : "N/A"}</td></tr>
+`;
 
-    // Oculta o feed e exibe os detalhes
-    feed.style.display = "none";
-    resultContainer.style.display = "block";
-}
+feed.style.display = "none";
+resultContainer.style.display = "block"; }
 
 document.getElementById("backButton").addEventListener("click", () => {
-    document.getElementById("feed").style.display = "block";
-    document.querySelector(".result-container").style.display = "none";
-});
+const feed = document.getElementById("feed");
+const resultContainer = document.querySelector(".result-container");
 
-// Eventos para pesquisa
+resultContainer.style.display = "none";
+feed.style.display = "flex"; 
+feed.offsetHeight;  
+
+const cards = [...feed.children];
+feed.innerHTML = "";
+cards.forEach(card => feed.appendChild(card)); });
+
+// Eventos de Pesquisa
 document.getElementById("searchButton").addEventListener("click", searchPlant);
 document.getElementById("searchBar").addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        searchPlant();
-    }
-});
-  </script>
+if (event.key === "Enter") {
+searchPlant();
+}});
+</script>
 
-</body>
-</html>
+<script>
+let loadSteps = [
+{ task: "Carregando API...", progress: 20, action: loadAPI },
+{ task: "Carregando banco de dados...", progress: 50, action: loadDatabase },
+{ task: "Carregando arquivos de plantas...", progress: 80, action: loadPlantFiles },
+{ task: "Carregando aplicativo...", progress: 100, action: finalizeLoading } ];
+
+let plantFiles = [];
+
+function updateLoading(status, percent) {
+document.getElementById("loading-status").innerText = status;
+document.getElementById("loading-percent").innerText = percent + "%";
+document.querySelector(".progress-fill").style.width = percent + "%"; }
+
+function showError(message) {
+document.getElementById("loading-status").innerText = "Erro: " + message;
+
+document.getElementById("loading-status").style.color = "red"; }
+
+function loadAPI() {
+return new Promise((resolve, reject) => {  
+fetch("planta-db.js")
+.then(response => response.text())
+.then(scriptContent => {
+const script = document.createElement("script");
+script.innerHTML = scriptContent;
+document.body.appendChild(script);
+
+setTimeout(() => {
+if (typeof plantIndex !== "undefined") {
+plantFiles = Object.values(plantIndex);
+resolve();
+} else {
+showError("A API não retornou os dados corretamente.");
+reject();
+}}, 500);
+})
+.catch(() => {
+showError("Falha ao carregar a API. Isto pode ser um problema interno, se você não vê nenhum detalhe de erro, tente recarregar a página.");
+reject();
+});});}
+
+function loadDatabase() {
+return new Promise(resolve => {
+setTimeout(() => { 
+window.databaseLoaded = true; 
+resolve();
+}, 1000); 
+});}
+
+function loadPlantFiles() {
+return new Promise((resolve, reject) => {
+let loaded = 0;
+let errors = [];
+
+if (plantFiles.length === 0) {
+showError("Nenhum arquivo de planta encontrado.");
+reject();
+return;
+}
+
+function checkFiles(file, index) {
+fetch(`https://cdn.jsdelivr.net/gh/plantopedia/API@main/${file}`)
+.then(response => response.text())
+.then(scriptContent => {
+const script = document.createElement("script");
+script.innerHTML = scriptContent;                      document.body.appendChild(script);
+loaded++;
+updateLoading(`Carregando arquivos... (${loaded}/${plantFiles.length})`, 80 + Math.round((loaded / plantFiles.length) * 20));
+if (loaded === plantFiles.length) resolve();
+})
+.catch(() => {
+errors.push(file);
+showError(`Erro ao carregar: ${file} \n Tente recarregar a página, se o problema persistir contate o CEO.`);
+if (errors.length === plantFiles.length) reject();
+});}
+
+plantFiles.forEach(checkFiles);
+});}
+
+function finalizeLoading() {
+return new Promise(resolve => {
+setTimeout(() => {
+document.getElementById("loading-screen").style.opacity = "0";
+setTimeout(() => document.getElementById("loading-screen").remove(), 800);
+resolve();
+}, 1000);});}
+
+async function startLoading() {
+for (let step of loadSteps) {
+updateLoading(step.task, step.progress);
+try {
+await step.action();
+} catch {
+break;
+}}}
+
+startLoading();
+</script></body></html>
