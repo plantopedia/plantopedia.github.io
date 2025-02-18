@@ -396,21 +396,6 @@ Tente buscar por essas plantas, elas são interessantes:</h2>
 <!-- Espaço para resultados da pesquisa -->
 <div id="feed"></div>
 
-<!-- Script do Suggestion Container -->
-<script id="search-script">
-function searchPlant() {
-const query = document.getElementById("searchBar").value.trim();
-const feed = document.getElementById("feed");
-const suggestionsContainer = document.getElementById("suggestions-container");
-
-feed.innerHTML = "";
-suggestionsContainer.style.display = "none";
-
-if (!query) {
-feed.innerHTML = "<p>Digite algo para buscar.</p>";
-return; }
-</script>
-
 <div class="result-container">
 <button id="backButton">Voltar</button><br>          
 <div id="mDetails">
@@ -444,19 +429,19 @@ callback(); }}
 function searchPlant() {
 const query = document.getElementById("searchBar").value.trim();
 const feed = document.getElementById("feed");
-const resultContainer = document.querySelector(".result-container");
+const suggestionContainer = document.getElementById("suggestions-container");
 
 feed.innerHTML = "";
-resultContainer.style.display = "none";
 
+if (suggestionContainer && suggestionContainer.style.display !== "none") {
+suggestionContainer.style.display = "none"; }
 if (!query) {
 feed.innerHTML = "<p>Digite algo para buscar.</p>";
 return; }
-
+    
 const results = buscarPlantas(query);
 if (results[0].nome === "Nenhuma planta encontrada.") {
-feed.innerHTML = "<p>Nenhuma planta encontrada.</p>";
-return; }
+feed.innerHTML = '<p style="align-text:center;">Nenhuma planta encontrada.</p>'; return; }
 
 results.forEach(result => {
 if (!result.arquivo) return;
@@ -466,6 +451,7 @@ card.classList.add("feed-item");
 card.innerHTML = `
 <div class="feed-content">
 <h3>${result.nome}</h3>
+<hr style="margin:10px; border: 5px dotted green;">
 <p>Carregando descrição...</p>
 </div>
 <div class="feed-image">
