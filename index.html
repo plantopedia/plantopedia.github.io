@@ -545,9 +545,9 @@ let loadSteps = [
 let plantFiles = [];
 
 function updateLoading(status, percent) {
-document.getElementById("loading-status").innerText = status;
-document.getElementById("loading-percent").innerText = percent + "%";
-document.querySelector(".progress-fill").style.width = percent + "%"; }
+        document.getElementById("loading-status").innerText = status;
+        document.getElementById("loading-percent").innerText = percent + "%";
+        document.querySelector(".progress-fill").style.width = percent + "%"; }
 
 function showError(message) {
 document.getElementById("loading-status").innerText = "Erro: " + message;
@@ -556,8 +556,7 @@ document.getElementById("loading-status").style.color = "red"; }
 
 function loadAPI() {
 return new Promise((resolve, reject) => {  
-fetch("https://cdn.jsdelivr.net/gh/plantopedia/API@latest/planta-db.js")
-/* Carrega a Última Versão da API - @latest */
+fetch("https://cdn.jsdelivr.net/gh/plantopedia/API@latest/planta-db.js") /* Carrega a Última Atualização */
 .then(response => response.text())
 .then(scriptContent => {
 const script = document.createElement("script");
@@ -619,7 +618,7 @@ plantFiles.forEach(checkFiles);
 function finalizeLoading() {
 return new Promise(resolve => {
 setTimeout(() => {
-document.getElementById("loading-screen").style.opacity = "0";
+            document.getElementById("loading-screen").style.opacity = "0";
 setTimeout(() => document.getElementById("loading-screen").remove(), 800);
 resolve();
 }, 1000);});}
